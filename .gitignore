@@ -2,3 +2,8 @@
 AI_News/AI_News/settings.py
 db.sqlite3
 AI_News/__pycache__/
+AI_News/AI_News/__pycache__/
+AI_News/apps/app_funthing/__pycache__/
+AI_News/apps/app_funthing/migrations/__pycache__/
+AI_News/apps/app_news/__pycache__/
+AI_News/apps/app_news/migrations/__pycache__/

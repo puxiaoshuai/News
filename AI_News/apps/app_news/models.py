@@ -28,7 +28,7 @@ class Comment(models.Model):
     name = models.CharField(max_length=100)
     text = models.TextField()
     create_time = models.DateTimeField(auto_now_add=True)
-    news = models.ForeignKey('News', on_delete=models.DO_NOTHING)
+    news = models.ForeignKey('News',related_name='comment', on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.name

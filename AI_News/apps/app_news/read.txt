@@ -1,0 +1,49 @@
+GenericViewSet(viewset)  -drf
+       GenericApiView    -drf
+             ApiView     -drf
+                  View   -django
+上面的GenericViewSet是子类，View是最高的父类了
++++++++++++++++++
+mixin:
+     ListModelMixin  查询全部信息 GET请求
+     CreateModeMinxin 增加 POST请求
+     RetrieveModelMixin 查询部分信息 GET请求
+     UpdateModelMixin 为更新   put 要提前提交全部信息    PUTCH 更新部分信息
+     DestroyModelMixin 删除 DELETE 请求
+
+相结合
+CreateApiView=GenericAPIView+CreateModeMinin
+ListAPIView=GenericAPIView+ListModeMin
+RetrieveAPIView=GenericAPIView+RetrieveModelMixin
+DestroyAPIView=GenericAPIView+DestroyModelMixin
+UpdateAPIView=GenericAPIView+UpdateModelMixin
+ListCreateAPIView=GenericAPIView, ListModelMixin, CreateModelMixin
+都是组合起来的，可以先考虑组合好的，不行的话，就使用自己的
+跟多参考：
+https://www.django-rest-framework.org/api-guide/generic-views/#listcreateapiview
+
+更高级的是viewset,也包含很多组合，eg:
+class GenericViewSet(ViewSetMixin, generics.GenericAPIView):
+    pass
+ 继承了ViewSetMixin,get，put方式就能自己写，绑定的方式，就是使用
+ urls中使用下面的形式来绑定或者使用router
+ news_list=NewsListViewset.as_view({
+    'get':'list',
+    'post':xx
+ })
+ -------
+ router = DefaultRouter()
+router.register('news', NewsListViewset)
+ 不像下面的
+ class UpdateAPIView(mixins.UpdateModelMixin,
+                    GenericAPIView):
+    """
+    Concrete view for updating a model instance.
+    """
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+推荐使用viewset
