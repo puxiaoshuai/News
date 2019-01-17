@@ -17,7 +17,7 @@ class News(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['title']
+        ordering = ['-create_time']
         verbose_name = "新闻"
         verbose_name_plural = '新闻'
         db_table='news'

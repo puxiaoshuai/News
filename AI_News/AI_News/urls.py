@@ -16,23 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-# from app_news.views_base import NewsListView
+from app_news.api import NewsListView
 from rest_framework.routers import DefaultRouter
-from app_news.views import NewsListViewset
-from app_news.mytest.views import  NewS
 
 router = DefaultRouter()
-router.register('news', NewsListViewset)
-# news_list=NewsListViewset.as_view({
-#     'get':'list',
-# })
+# router.register('news',NewsListViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('news/', NewsListView.as_view(),name="news_list"),
-    path('', include(router.urls)),
-    #path('test1/', news_list1),
-    path('test1/', NewS.as_view()),
-    # path('news/', news_list,name="news_list"),
+    path('news/', NewsListView.as_view()),
     path('api-auth/', include('rest_framework.urls'))
 ]
