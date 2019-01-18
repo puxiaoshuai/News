@@ -1,10 +1,15 @@
 from rest_framework import serializers
 
-from .models import News, Comment
+from .models import News, Comment, UserProfile
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ('username', 'email', 'nick_name', 'gender',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Comment
         # fields = ('title', 'body')

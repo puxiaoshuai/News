@@ -16,14 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from app_news.api import NewsListView
+from app_news.api import NewsListView,RegisterView
 from rest_framework.routers import DefaultRouter
-
+from rest_framework_jwt.views import obtain_jwt_token
 router = DefaultRouter()
 # router.register('news',NewsListViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('news/', NewsListView.as_view()),
-    path('api-auth/', include('rest_framework.urls'))
+    path('register/', RegisterView.as_view()),
+    path('api-auth/', include('rest_framework.urls')),
+    path('login/', obtain_jwt_token),
 ]
