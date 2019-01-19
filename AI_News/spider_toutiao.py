@@ -1,7 +1,8 @@
 import requests
 import json
+import AI_News.urls
 max_behot_time = 1547790365
-from app_news.models  import NewsTag,News
+from app_news.models import NewsTag
 
 news_data=[]
 def get_one_page(time):

@@ -1,0 +1,1 @@
+from  app_news.models import News,NewsTag

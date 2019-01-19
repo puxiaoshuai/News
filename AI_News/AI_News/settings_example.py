@@ -26,7 +26,7 @@ SECRET_KEY = '-r=w7ihfzi2sorqs=f7_-ufazo3rn$a(_h331@!n#x1-@!i2as'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.3.124','localhost','127.0.0.1']
+ALLOWED_HOSTS = ['192.168.3.124', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -42,10 +42,10 @@ INSTALLED_APPS = [
     'guardian',
     'rest_framework',
     'django_filters',
-    'corsheaders'
+    'corsheaders',
 
 ]
-AUTH_USER_MODEL='app_news.UserProfile'
+AUTH_USER_MODEL = 'app_news.UserProfile'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
-#跨域设置
+# 跨域设置
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = 'AI_News.urls'
@@ -137,7 +137,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
-    #也可以自定义，在views中
-    #'PAGE_SIZE': 2
-    #'DEFAULT_PAGINATION_CLASS': 'apps.core.pagination.StandardResultsSetPagination'
+    # 也可以自定义，在views中
+    # 'PAGE_SIZE': 2
+    # 'DEFAULT_PAGINATION_CLASS': 'apps.core.pagination.StandardResultsSetPagination'
+}
+JWT_AUTH = {
+
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'app_news.api.jwt_response_payload_handler',
+
+    'JWT_RESPONSE_PAYLOAD_ERROR_HANDLER': 'app_news.api.jwt_response_payload_error_handler',
+
 }
