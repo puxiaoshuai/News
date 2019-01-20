@@ -34,6 +34,12 @@ class News(models.Model):
     img_tv_url = models.CharField(max_length=120)
     tv_name = models.CharField(max_length=120)
     create_time = models.DateTimeField(auto_now_add=True)
+    time_tv=models.CharField(max_length=20,default="")
+
+
+
+
+
 
     def __str__(self):
         return self.title
