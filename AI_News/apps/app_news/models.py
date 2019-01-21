@@ -57,7 +57,8 @@ class Comment(models.Model):
     text = models.TextField()
     create_time = models.DateTimeField(auto_now_add=True)
     news = models.ForeignKey(News, related_name='news_comment', on_delete=models.DO_NOTHING)
-    user = models.ForeignKey(UserProfile,related_name='user_comment', on_delete=models.CASCADE, default='', unique=False)
+    user = models.ForeignKey(UserProfile, related_name='user_comment', on_delete=models.CASCADE, default='',
+                             unique=False)
 
     def __str__(self):
         return self.text
@@ -69,7 +70,18 @@ class Comment(models.Model):
         db_table = 'comment'
 
 
-# class DuanziModel(models.Model):
-#     id = models.CharField(primary_key=True)
-#     body = models.TextField()
+class DuanziModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.TextField()
+    body = models.TextField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(UserProfile, related_name='duanzi', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-create_time']
+        verbose_name = "段子"
+        verbose_name_plural = "段子"
+        db_table = 'duanzi'

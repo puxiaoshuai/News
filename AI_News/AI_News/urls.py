@@ -24,7 +24,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from app_news.api import (NewsListView,RegisterView,NewsDetailView,get_QiniuView
-                          ,News_CommentView,News_CommentListView)
+                          ,News_CommentView,News_CommentListView,DuanziListView,Duanzi_Add)
 from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
 router = DefaultRouter()
@@ -40,4 +40,6 @@ urlpatterns = [
     path('register/', RegisterView.as_view()),
     path('api-auth/', include('rest_framework.urls')),
     path('login/', obtain_jwt_token),
+    path('duanzi/', DuanziListView.as_view()),
+    path('add_duanzi/', Duanzi_Add.as_view()),
 ]

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import News, Comment, UserProfile, NewsTag
+from .models import News, Comment, UserProfile, NewsTag, DuanziModel
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -22,11 +22,12 @@ class User_CommentSerizer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    user=UserSerializer()
+    user = UserSerializer()
+
     class Meta:
         model = Comment
-        fields = ('id', 'text','create_time','user')
-        #fields = '__all__'
+        fields = ('id', 'text', 'create_time', 'user')
+        # fields = '__all__'
 
 
 class NewsSerializer(serializers.ModelSerializer):
@@ -42,3 +43,11 @@ class NewsSerializer(serializers.ModelSerializer):
         model = News
         # fields = ('title', 'body')
         fields = '__all__'
+
+
+class DuanziSerializer(serializers.ModelSerializer):
+    user = User_CommentSerizer()
+
+    class Meta:
+        model = DuanziModel
+        fields = ('id', 'title', 'body', 'create_time', 'user')

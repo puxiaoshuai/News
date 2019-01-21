@@ -10,8 +10,8 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from AI_News.settings import access_key, secret_key
 from app_news.filters import NewsFilter
-from .models import News, UserProfile, NewsTag, Comment
-from .serialaizers import NewsSerializer, UserSerializer,CommentSerializer
+from .models import News, UserProfile, NewsTag, Comment, DuanziModel
+from .serialaizers import NewsSerializer, UserSerializer, CommentSerializer, DuanziSerializer
 from rest_framework.response import Response
 from common.HttpResponseUtil import generate_response, ResponseCode, create_list_msg
 
@@ -82,15 +82,14 @@ class News_CommentListView(APIView):
             news_id = 0
         news = News.objects.filter(id=news_id).first()
         if news:
-            comments=news.news_comment.all()
-            serializer = CommentSerializer(comments,many=True)
-            total=len(comments)
-            msg=create_list_msg(data=serializer.data,total=total,page=1,page_size=100)
-            data=generate_response(data=msg)
+            comments = news.news_comment.all()
+            serializer = CommentSerializer(comments, many=True)
+            total = len(comments)
+            msg = create_list_msg(data=serializer.data, total=total, page=1, page_size=100)
+            data = generate_response(data=msg)
         else:
             data = generate_response(data="新闻没查询到", code=ResponseCode.CODE_NOTFOUND)
-        return  Response(data=data)
-
+        return Response(data=data)
 
 
 # 七牛token
@@ -176,3 +175,71 @@ def jwt_response_payload_error_handler(serializer, request=None):
         'message': "用户名或者密码错误",
         'data': None
     }
+
+
+# 这是新闻的列表
+class DuanziListView(APIView):
+    # permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+    # authentication_classes = (JSONWebTokenAuthentication,)
+    def post(self, request, format=None):
+        try:
+            page = int(request.POST.get('page', 1))
+            page_size = int(request.POST.get('page_size', 10))
+        except Exception as err:
+            return Response(data=generate_response(code=ResponseCode.CODE_MESSAGE_ERROR))
+        total = DuanziModel.objects.count()
+        start = (page - 1) * page_size
+        end = page * page_size
+        duanzi_list = DuanziModel.objects.all()[start:end]
+        serializer = DuanziSerializer(duanzi_list, many=True)
+        message = create_list_msg(serializer.data, total, page, page_size)
+        data = generate_response(message)
+        return Response(data=data, status=status.HTTP_200_OK)
+
+
+class Duanzi_Add(APIView):
+    permission_classes = (IsAuthenticated, IsAuthenticatedOrReadOnly)
+    authentication_classes = (JSONWebTokenAuthentication,)
+
+    def post(selfd, request):
+        title = request.POST.get('title')
+        body = request.POST.get('body')
+        is_delete=request.POST.get('del',False)
+        print(is_delete)
+        duanzi_id = request.POST.get('id', 0)
+        if title is None or body is None:
+            return Response(generate_response(data="内容填写完全", code=ResponseCode.CODE_MESSAGE_ERROR))
+        try:
+            user_id = request.POST.get('user_id')
+        except:
+            user_id = 0
+        user = UserProfile.objects.filter(id=user_id).first()
+        if user:
+            if duanzi_id != 0:
+                # 编辑
+                if is_delete:
+                    duanzi_model=DuanziModel.objects.filter(id=duanzi_id).first()
+                    if duanzi_model:
+                        duanzi_model.delete()
+                        return Response(generate_response(data="删除段子成功"))
+                    else:
+                        return Response(generate_response(data="删除失败"))
+                else:
+                    duanzi_model_edit = DuanziModel.objects.filter(id=duanzi_id).first()
+                    if duanzi_model_edit:
+                        duanzi_model_edit.title = title
+                        duanzi_model_edit.body = body
+                        duanzi_model_edit.user = user
+                        duanzi_model_edit.save()
+                        return Response(generate_response(data="修改段子成功"))
+                    else:
+                        return Response(generate_response(data="无当前数据", code=ResponseCode.CODE_NOTFOUND))
+            else:
+                duanzi_model = DuanziModel()
+                duanzi_model.title = title
+                duanzi_model.body = body
+                duanzi_model.user = user
+                duanzi_model.save()
+                return Response(generate_response(data="添加段子成功"))
+        else:
+            return Response(generate_response("用户id错误", code=ResponseCode.CODE_NOTFOUND))

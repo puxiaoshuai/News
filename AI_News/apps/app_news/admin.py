@@ -14,11 +14,15 @@ from django.contrib import admin
     '''按发布日期排序'''
     ordering = ('-mod_date',)
 """
-from app_news.models import News, Comment, UserProfile, NewsTag
+from app_news.models import News, Comment, UserProfile, NewsTag, DuanziModel
 
 
 class NewsAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'newstag')
+
+
+class DuanziAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'user')
 
 
 class NewTagAdmin(admin.ModelAdmin):
@@ -27,15 +31,13 @@ class NewTagAdmin(admin.ModelAdmin):
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('id', 'text', 'news', 'user')
-    #这是增加链接,和edit不能同时出现
+    # 这是增加链接,和edit不能同时出现
     list_display_links = ('text', 'news', 'user')
-    #list_editable = ['text', 'news', 'user']
-
-
-
+    # list_editable = ['text', 'news', 'user']
 
 
 admin.site.register(UserProfile)
 admin.site.register(NewsTag, NewTagAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(DuanziModel, DuanziAdmin)
