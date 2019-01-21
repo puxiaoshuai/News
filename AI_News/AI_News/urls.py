@@ -23,7 +23,8 @@ django.setup()
 from django.contrib import admin
 from django.urls import path, include
 
-from app_news.api import NewsListView,RegisterView
+from app_news.api import (NewsListView,RegisterView,NewsDetailView,get_QiniuView
+                          ,News_CommentView,News_CommentListView)
 from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import obtain_jwt_token
 router = DefaultRouter()
@@ -32,6 +33,10 @@ router = DefaultRouter()
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('news/', NewsListView.as_view()),
+    path('news_details/', NewsDetailView.as_view()),
+    path('news_comment/', News_CommentView.as_view()),
+    path('news_commentlist/', News_CommentListView.as_view()),
+    path('get_token/', get_QiniuView.as_view()),
     path('register/', RegisterView.as_view()),
     path('api-auth/', include('rest_framework.urls')),
     path('login/', obtain_jwt_token),

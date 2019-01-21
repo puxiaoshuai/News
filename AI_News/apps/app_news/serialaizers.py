@@ -1,19 +1,32 @@
 from rest_framework import serializers
 
-from .models import News, Comment, UserProfile
+from .models import News, Comment, UserProfile, NewsTag
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('username', 'email', 'nick_name', 'gender',)
+        fields = ('id', 'username', 'email', 'nick_name', 'gender',)
+
+
+class NewsTag(serializers.ModelSerializer):
+    class Meta:
+        model = NewsTag
+        fields = '__all__'
+
+
+class User_CommentSerizer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ('id', 'username')
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    user=UserSerializer()
     class Meta:
         model = Comment
-        # fields = ('title', 'body')
-        fields = '__all__'
+        fields = ('id', 'text','create_time','user')
+        #fields = '__all__'
 
 
 class NewsSerializer(serializers.ModelSerializer):
