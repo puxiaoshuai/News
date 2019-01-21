@@ -148,3 +148,5 @@ JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_ERROR_HANDLER': 'app_news.api.jwt_response_payload_error_handler',
 
 }
+access_key=''
+secret_key=''

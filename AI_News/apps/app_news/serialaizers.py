@@ -22,6 +22,10 @@ class User_CommentSerizer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    #通过关键字查询细节，字段名要对应
+
+
+
     user = UserSerializer()
 
     class Meta:
@@ -38,11 +42,12 @@ class NewsSerializer(serializers.ModelSerializer):
     # img_url=serializers.ImageField()
     # def create(self, validated_data):
     #     return News.objects.create(**validated_data)
-
+    newstag=NewsTag()
     class Meta:
         model = News
         # fields = ('title', 'body')
-        fields = '__all__'
+
+        fields = ('id','title','body','img_url','img_tv_url','tv_name','create_time','time_tv','newstag')
 
 
 class DuanziSerializer(serializers.ModelSerializer):
