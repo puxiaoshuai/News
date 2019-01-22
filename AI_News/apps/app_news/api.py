@@ -1,4 +1,5 @@
 import qiniu
+from django.urls import reverse
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, mixins, status
 
@@ -204,6 +205,7 @@ class Duanzi_Add(APIView):
     def post(selfd, request):
         title = request.POST.get('title')
         body = request.POST.get('body')
+        print(body)
         is_delete=request.POST.get('del',False)
         print(is_delete)
         duanzi_id = request.POST.get('id', 0)

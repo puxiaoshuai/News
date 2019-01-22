@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
+import datetime
 import os
 import sys
 
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'guardian',
     'rest_framework',
     'django_filters',
-    'corsheaders',
+    'corsheaders'
 
 ]
 AUTH_USER_MODEL = 'app_news.UserProfile'
@@ -80,7 +80,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'AI_News.wsgi.application'
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  # default
+    'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
 )
 
@@ -96,9 +96,6 @@ DATABASES = {
 
     }
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -137,16 +134,23 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
-    # 也可以自定义，在views中
-    # 'PAGE_SIZE': 2
-    # 'DEFAULT_PAGINATION_CLASS': 'apps.core.pagination.StandardResultsSetPagination'
+    #这个是权限验证
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+
 }
 JWT_AUTH = {
-
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'app_news.api.jwt_response_payload_handler',
-
     'JWT_RESPONSE_PAYLOAD_ERROR_HANDLER': 'app_news.api.jwt_response_payload_error_handler',
 
 }
-access_key=''
-secret_key=''
+access_key = "BkaslCENSa-EbKEjHbCExMprdB8FwTELgI_zOVZ5"  # 5
+secret_key = 'GQbM6Y9Orc09bW6CyRn8qaLVmqoTCYo84iex1zUk'

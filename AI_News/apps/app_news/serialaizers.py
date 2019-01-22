@@ -22,10 +22,7 @@ class User_CommentSerizer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    #通过关键字查询细节，字段名要对应
-
-
-
+    #通过关键字查询细节，字段名要对应,
     user = UserSerializer()
 
     class Meta:
@@ -35,19 +32,13 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class NewsSerializer(serializers.ModelSerializer):
-    # title = serializers.CharField(required=True, max_length=100)
-    # body=serializers.CharField()
-    # #新闻model没有的，可以直接添加阅读次数
-    # readtime=serializers.IntegerField(default=0)
-    # img_url=serializers.ImageField()
-    # def create(self, validated_data):
-    #     return News.objects.create(**validated_data)
     newstag=NewsTag()
+    comment_num=serializers.CharField(default=0)
     class Meta:
         model = News
         # fields = ('title', 'body')
 
-        fields = ('id','title','body','img_url','img_tv_url','tv_name','create_time','time_tv','newstag')
+        fields = ('id','title','body','img_url','img_tv_url','tv_name','create_time','time_tv','newstag','comment_num')
 
 
 class DuanziSerializer(serializers.ModelSerializer):
